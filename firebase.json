@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "fitnessApp",
+      "public": "dist/fitnessApp",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "udemyfitnessapp": {
+      "hosting": {
+        "fitnessApp": [
+          "udemyfitnessapp"
+        ]
+      }
+    }
+  }
+}
