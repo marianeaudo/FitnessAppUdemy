@@ -14,7 +14,7 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
 
   progress: number = 0;
   timer;
-  dialogSubscription: Subscription;
+  private dialogSubscription: Subscription;
 
   constructor(private dialog: MatDialog, private trainingService: TrainingService) { }
 

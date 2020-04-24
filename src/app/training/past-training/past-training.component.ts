@@ -18,7 +18,7 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns = ['date', 'name', 'calories', 'duration', 'state'];
   dataSource = new MatTableDataSource<Exercise>();
-  pastExercisesSubscription: Subscription;
+  private pastExercisesSubscription: Subscription;
 
   constructor(private trainingService: TrainingService) {
 

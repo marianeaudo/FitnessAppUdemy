@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class SidenavListComponent implements OnInit, OnDestroy {
 
   @Output() sidenavToggle = new EventEmitter<void>();
-  authSubscription: Subscription;
+  private authSubscription: Subscription;
   isAuth: boolean;
 
   constructor(private authService: AuthService) { }
