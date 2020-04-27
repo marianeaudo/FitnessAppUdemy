@@ -1,8 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { StopStrainingComponent } from './stop-training.component';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+
+import { StopStrainingComponent } from './stop-training.component';
 import { TrainingService } from '../training.service';
+import * as fromTraining from '../training.reducer'
 import { Exercise } from '../exercise.model';
 
 @Component({
@@ -15,15 +19,17 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
   progress: number = 0;
   timer;
   private dialogSubscription: Subscription;
+  private storeSubscription: Subscription;
 
-  constructor(private dialog: MatDialog, private trainingService: TrainingService) { }
+  constructor(private dialog: MatDialog, private trainingService: TrainingService, private store: Store<fromTraining.State>) { }
 
   ngOnInit(): void {
     this.startOrResumeTimer();
   }
 
   startOrResumeTimer() {
-    const step = this.trainingService.getRunningExercise().duration / 100 * 1000;
+    this.storeSubscription = this.store.select(fromTraining.getActiveTraining).pipe(take(1)).subscribe((exercise: Exercise) => {
+      const step = exercise.duration / 100 * 1000;
     this.timer = setInterval(() => {
       this.progress +=1;
       if(this.progress >= 100) {
@@ -31,6 +37,8 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
         clearInterval(this.timer);
       }
     }, step);
+    });
+
   }
 
   onStop() {
@@ -51,6 +59,9 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.dialogSubscription) {
       this.dialogSubscription.unsubscribe();
+    }
+    if (this.storeSubscription) {
+      this.storeSubscription.unsubscribe();
     }
   }
 
